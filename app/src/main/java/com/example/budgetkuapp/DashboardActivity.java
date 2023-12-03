@@ -12,10 +12,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private BottomNavigationView bottomNavigationView;
+    private FrameLayout frameLayout;
+
+    //The Fragment
+    private DashboardFragment dashboardFragment;
+    private PengeluaranFragment pengeluaranFragment;
+    private BudgetFragment budgetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +46,43 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         drawerLayout.addDrawerListener(drawer_toggle);
         drawer_toggle.syncState();
 
+        bottomNavigationView=findViewById(R.id.bottomNavBar);
+        frameLayout=findViewById(R.id.main_frame);
         NavigationView navigationView=findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        dashboardFragment=new DashboardFragment();
+        pengeluaranFragment=new PengeluaranFragment();
+        budgetFragment=new BudgetFragment();
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
 
+                if (itemId == R.id.dashboard) {
+                    setFragment(dashboardFragment);
+                    return true;
+                } else if (itemId == R.id.addpengeluaran) {
+                    setFragment(pengeluaranFragment);
+                    return true;
+                } else if (itemId == R.id.budget) {
+                    setFragment(budgetFragment);
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
+
+
+
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -50,22 +95,25 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
-    public void displaySelectedListener(int itemId){
-        Fragment fragment=null;
-        switch(itemId){
-            case R.id.dashboard:
-            break;
-            case R.id.pengeluaran:
-            break;
+    public void displaySelectedListener(int itemId) {
+        Fragment fragment = null;
+
+        if (itemId == R.id.dashboard) {
+            // Handle dashboard fragment
+        } else if (itemId == R.id.pengeluaran) {
+            // Handle pengeluaran fragment
         }
-        if(fragment!=null){
-            FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame,fragment);
+
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.main_frame, fragment);
             ft.commit();
         }
-        DrawerLayout drawerLayout=findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
