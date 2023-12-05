@@ -54,6 +54,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         dashboardFragment=new DashboardFragment();
         pengeluaranFragment=new PengeluaranFragment();
         budgetFragment=new BudgetFragment();
+
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -73,10 +74,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
 
         });
-
-
-
-
+        bottomNavigationView.setSelectedItemId(R.id.dashboard);
     }
 
     private void setFragment(Fragment fragment) {
