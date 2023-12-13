@@ -33,7 +33,6 @@ public class PengeluaranFragment extends Fragment {
         editDeskripsiPengeluaran = view.findViewById(R.id.editDeskripsiPengeluaran);
 
         buttonSaveInput = view.findViewById(R.id.buttonSaveInput);
-        buttonBackInput = view.findViewById(R.id.buttonBackInput);
 
         // Initialize DataHelper
         dataHelper = new DataHelper(getActivity());
