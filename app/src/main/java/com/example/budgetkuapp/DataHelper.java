@@ -39,7 +39,7 @@ public class DataHelper extends SQLiteOpenHelper {
     // CREATE TABLE statements
     private static final String CREATE_TABLE_LOGIN =
             "CREATE TABLE " + TABLE_LOGIN +
-                    "(" + KEY_ID + " INTEGER PRIMARY KEY, " +
+                    "(" + KEY_USER_ID + " INTEGER PRIMARY KEY, " +
                     KEY_USERNAME + " TEXT, " +
                     KEY_PASSWORD + " TEXT, " +
                     KEY_IS_SIGNED_IN + " INTEGER DEFAULT 0)";
@@ -52,7 +52,9 @@ public class DataHelper extends SQLiteOpenHelper {
                     KEY_PENGELUARAN_AMOUNT + " REAL, " +
                     KEY_PENGELUARAN_CATEGORY + " TEXT, " +
                     KEY_PENGELUARAN_DATE + " TEXT, " +
-                    KEY_PENGELUARAN_DESCRIPTION + " TEXT)";
+                    KEY_PENGELUARAN_DESCRIPTION + " TEXT, " +
+                    "FOREIGN KEY(" + KEY_USER_ID + ") REFERENCES " + TABLE_LOGIN + "(" + KEY_USER_ID + "))";
+
 
     private static final String CREATE_TABLE_BUDGETS =
             "CREATE TABLE " + TABLE_BUDGETS +
@@ -97,7 +99,25 @@ public class DataHelper extends SQLiteOpenHelper {
     public Boolean checkuserpass(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGIN + " WHERE " + KEY_USERNAME + " = ? AND " + KEY_PASSWORD + " = ?", new String[]{username, password});
-        return cursor.getCount() > 0;
+
+        if (cursor.getCount() > 0) {
+            // User found, update the KEY_IS_SIGNED_IN column to 1
+            ContentValues values = new ContentValues();
+            values.put(KEY_IS_SIGNED_IN, 1);
+            db.update(TABLE_LOGIN, values, KEY_USERNAME + " = ? AND " + KEY_PASSWORD + " = ?", new String[]{username, password});
+
+            // Close the cursor and database
+            cursor.close();
+            db.close();
+
+            return true;
+        }
+
+        // Close the cursor and database
+        cursor.close();
+        db.close();
+
+        return false;
     }
 
     public String getCurrentUsername() {
@@ -123,6 +143,31 @@ public class DataHelper extends SQLiteOpenHelper {
 
         return username;
     }
+
+    public int getCurrentUserId() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int userId = -1; // Default value if no user is signed in
+
+        Cursor cursor = db.rawQuery("SELECT " + KEY_USER_ID + " FROM " + TABLE_LOGIN + " WHERE " + KEY_IS_SIGNED_IN + " = 1", null);
+
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(KEY_USER_ID);
+
+            // Check if the column index is valid
+            if (columnIndex >= 0) {
+                userId = cursor.getInt(columnIndex);
+            } else {
+                // Handle the case where the column index is -1 (column not found)
+                Log.e("DataHelper", "getColumnIndex returned -1 for column 'user_id'");
+            }
+        }
+
+        cursor.close();
+        db.close();
+
+        return userId;
+    }
+
 
 
     // Example method to insert a pengeluaran with user ID

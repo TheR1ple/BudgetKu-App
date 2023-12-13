@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/dashboard"/>
+    <item
+        android:id="@+id/pengeluaran"
+        android:icon="@drawable/addpengeluaran"
+        android:title="Pengeluaran" />
+</menu>
