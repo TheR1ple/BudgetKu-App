@@ -6,6 +6,15 @@
 
     <TableRow>
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:padding="8dp"/>
+
         <TextView
             android:id="@+id/pengeluaranIdTextView"
             android:layout_width="0dp"

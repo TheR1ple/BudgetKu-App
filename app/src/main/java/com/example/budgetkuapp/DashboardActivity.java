@@ -10,6 +10,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -97,9 +100,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Fragment fragment = null;
 
         if (itemId == R.id.dashboard) {
-            // Handle dashboard fragment
+            setFragment(dashboardFragment);
+            return;
         } else if (itemId == R.id.pengeluaran) {
-            // Handle pengeluaran fragment
+            setFragment(pengeluaranFragment);
+            return;
+        } else if (itemId == R.id.logout) {
+            performLogout();
+            return;
         }
 
         if (fragment != null) {
@@ -112,6 +120,25 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    private void performLogout() {
+        // Clear user session or perform any necessary cleanup
+        clearUserSession();
+
+        DataHelper dataHelper = new DataHelper(this);
+        dataHelper.logout();
+        Intent logoutIntent = new Intent(this, MainActivity.class);
+        startActivity(logoutIntent);
+
+        finish();
+    }
+
+    private void clearUserSession() {
+        SharedPreferences preferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.clear();
+        editor.apply();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

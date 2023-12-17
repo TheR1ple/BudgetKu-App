@@ -31,6 +31,7 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String KEY_PENGELUARAN_CATEGORY = "kategori";
     private static final String KEY_PENGELUARAN_DATE = "tanggal";
     private static final String KEY_PENGELUARAN_DESCRIPTION = "deskripsi";
+    private static final String KEY_PENGELUARAN_IMAGE_PATH = "image_path";
 
     // BUDGETS table column names
     private static final String KEY_BUDGET_ID = "budget_id";
@@ -44,7 +45,6 @@ public class DataHelper extends SQLiteOpenHelper {
                     KEY_PASSWORD + " TEXT, " +
                     KEY_IS_SIGNED_IN + " INTEGER DEFAULT 0)";
 
-
     private static final String CREATE_TABLE_PENGELUARAN =
             "CREATE TABLE " + TABLE_PENGELUARAN +
                     "(" + KEY_PENGELUARAN_ID + " INTEGER PRIMARY KEY, " +
@@ -53,8 +53,8 @@ public class DataHelper extends SQLiteOpenHelper {
                     KEY_PENGELUARAN_CATEGORY + " TEXT, " +
                     KEY_PENGELUARAN_DATE + " TEXT, " +
                     KEY_PENGELUARAN_DESCRIPTION + " TEXT, " +
+                    KEY_PENGELUARAN_IMAGE_PATH + " TEXT, " +
                     "FOREIGN KEY(" + KEY_USER_ID + ") REFERENCES " + TABLE_LOGIN + "(" + KEY_USER_ID + "))";
-
 
     private static final String CREATE_TABLE_BUDGETS =
             "CREATE TABLE " + TABLE_BUDGETS +
@@ -106,6 +106,9 @@ public class DataHelper extends SQLiteOpenHelper {
             values.put(KEY_IS_SIGNED_IN, 1);
             db.update(TABLE_LOGIN, values, KEY_USERNAME + " = ? AND " + KEY_PASSWORD + " = ?", new String[]{username, password});
 
+            // Set KEY_IS_SIGNED_IN = 0 for other users
+            db.execSQL("UPDATE " + TABLE_LOGIN + " SET " + KEY_IS_SIGNED_IN + " = 0 WHERE " + KEY_USERNAME + " <> ?", new String[]{username});
+
             // Close the cursor and database
             cursor.close();
             db.close();
@@ -119,6 +122,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
         return false;
     }
+
 
     public String getCurrentUsername() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -168,10 +172,8 @@ public class DataHelper extends SQLiteOpenHelper {
         return userId;
     }
 
-
-
     // Example method to insert a pengeluaran with user ID
-    public Boolean insertPengeluaran(int userId, double amount, String category, String date, String description) {
+    public Boolean insertPengeluaran(int userId, double amount, String category, String date, String description, String imagePath) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USER_ID, userId);
@@ -179,6 +181,7 @@ public class DataHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PENGELUARAN_CATEGORY, category);
         contentValues.put(KEY_PENGELUARAN_DATE, date);
         contentValues.put(KEY_PENGELUARAN_DESCRIPTION, description);
+        contentValues.put(KEY_PENGELUARAN_IMAGE_PATH, imagePath);  // Menambahkan path gambar
         long result = db.insert(TABLE_PENGELUARAN, null, contentValues);
         return result != -1;
     }
@@ -195,8 +198,23 @@ public class DataHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USER_ID, userId);
         contentValues.put(KEY_BUDGET_AMOUNT, amount);
-        long result = db.insert(TABLE_BUDGETS, null, contentValues);
-        return result != -1;
+
+        // Check if the budget entry for the user already exists
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BUDGETS + " WHERE " + KEY_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor.getCount() > 0) {
+            // Budget entry for the user already exists, perform UPDATE
+            int updateResult = db.update(TABLE_BUDGETS, contentValues, KEY_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+            cursor.close();
+            db.close();
+            return updateResult != -1;
+        } else {
+            // Budget entry for the user does not exist, perform INSERT
+            long insertResult = db.insert(TABLE_BUDGETS, null, contentValues);
+            cursor.close();
+            db.close();
+            return insertResult != -1;
+        }
     }
 
     // Example method to get the budget for a specific user
@@ -204,6 +222,15 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_BUDGETS + " WHERE " + KEY_USER_ID + " = ?", new String[]{String.valueOf(userId)});
     }
+
+    public void logout() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_IS_SIGNED_IN, 0);
+        db.update(TABLE_LOGIN, values, KEY_IS_SIGNED_IN + " = 1", null);
+        db.close();
+    }
+
 }
 
 

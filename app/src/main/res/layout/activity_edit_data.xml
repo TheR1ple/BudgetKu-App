@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PengeluaranFragment">
+    tools:context=".EditDataActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tambah Pengeluaran"
+                android:text="Edit Pengeluaran"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:paddingTop="50dp"
                 android:paddingBottom="50dp"/>
@@ -53,7 +53,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editJumlahPengeluaran"/>
+                        android:id="@+id/editDetailJumlahPengeluaran"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -85,7 +85,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editKategoriPengeluaran"/>
+                        android:id="@+id/editDetailKategoriPengeluaran"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -119,7 +119,7 @@
                         android:inputType="none"
                         android:editable="false"
                         android:onClick="showDatePicker"
-                        android:id="@+id/editTanggalPengeluaran"/>
+                        android:id="@+id/editDetailTanggalPengeluaran"/>
 
                 </RelativeLayout>
 
@@ -150,7 +150,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editDeskripsiPengeluaran"/>
+                        android:id="@+id/editDetailDeskripsiPengeluaran"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -204,6 +204,19 @@
 
                 android:paddingTop="30dp">
 
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Back"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:id="@+id/buttonBackEditData"/>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -216,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:text="Save"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:id="@+id/buttonSaveInput"/>
+                        android:id="@+id/buttonSaveEditData"/>
                 </RelativeLayout>
 
             </LinearLayout>

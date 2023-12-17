@@ -8,4 +8,8 @@
         android:id="@+id/pengeluaran"
         android:icon="@drawable/addpengeluaran"
         android:title="Pengeluaran" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="Log out" />
 </menu>
