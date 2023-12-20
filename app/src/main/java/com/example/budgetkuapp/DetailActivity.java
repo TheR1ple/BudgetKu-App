@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 
 public class DetailActivity extends AppCompatActivity {
+    public static final String EXTRA_PENGELUARAN_ID = "PENGELUARAN_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +28,9 @@ public class DetailActivity extends AppCompatActivity {
         // Mendapatkan data dari Intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int pengeluaranId = extras.getInt("pengeluaranId");
+            int pengeluaranId = extras.getInt(EXTRA_PENGELUARAN_ID);
             DataHelper dataHelper = new DataHelper(this);
-            Cursor cursor = dataHelper.getUserPengeluaran(pengeluaranId);
+            Cursor cursor = dataHelper.getPengeluaranDetail(pengeluaranId);
 
             if (cursor.moveToFirst()) {
                 int deskripsiIndex = cursor.getColumnIndex("deskripsi");
@@ -55,10 +56,11 @@ public class DetailActivity extends AppCompatActivity {
                         imageViewBukti.setImageResource(R.drawable.jos_gandos);
                     }
 
-                    textViewDeskripsi.setText("Deskripsi: " + deskripsi);
-                    textViewJumlah.setText("Jumlah: Rp. " + String.format("%,.2f", jumlah));
-                    textViewTanggal.setText("Tanggal: " + tanggal);
-                    textViewKategori.setText("Kategori: " + kategori);
+                    textViewDeskripsi.setText(deskripsi);
+                    textViewJumlah.setText("Rp. " + String.format("%,.2f", jumlah));
+                    textViewTanggal.setText(tanggal);
+                    textViewKategori.setText(kategori);
+                    Log.e("DetailActivity", "Brhasil Mnampilkan data");
                 } else {
                     // Handle the case where one or more column indexes are -1 (column not found)
                     Log.e("DetailActivity", "Invalid column index");

@@ -3,13 +3,14 @@ package com.example.budgetkuapp;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BudgetKu.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Table names
     private static final String TABLE_LOGIN = "login";
@@ -77,8 +78,13 @@ public class DataHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PENGELUARAN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUDGETS);
+
         onCreate(db);
     }
+
+
 
     // Original methods for sign up and sign in
     public Boolean insertData(String username, String password) {
@@ -189,9 +195,53 @@ public class DataHelper extends SQLiteOpenHelper {
     // Example method to get pengeluaran for a specific user
     public Cursor getUserPengeluaran(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_PENGELUARAN + " WHERE " + KEY_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PENGELUARAN + " WHERE " + KEY_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+
+        // Logging untuk melihat jumlah baris yang dikembalikan oleh cursor
+        Log.d("DataHelper", "Number of rows returned by getUserPengeluaran: " + cursor.getCount());
+
+        return cursor;
     }
 
+    public Cursor getPengeluaranDetail(int pengeluaranId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_PENGELUARAN + " WHERE " + KEY_PENGELUARAN_ID + " = ?", new String[]{String.valueOf(pengeluaranId)});
+    }
+
+    public boolean updatePengeluaran(int pengeluaranId, double jumlah, String kategori, String tanggal, String deskripsi, String imagePath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_PENGELUARAN_AMOUNT, jumlah);
+        contentValues.put(KEY_PENGELUARAN_CATEGORY, kategori);
+        contentValues.put(KEY_PENGELUARAN_DATE, tanggal);
+        contentValues.put(KEY_PENGELUARAN_DESCRIPTION, deskripsi);
+        contentValues.put(KEY_PENGELUARAN_IMAGE_PATH, imagePath);
+
+        try {
+            // Update pengeluaran based on pengeluaranId
+            int rowsAffected = db.update(TABLE_PENGELUARAN, contentValues, KEY_PENGELUARAN_ID + "=?", new String[]{String.valueOf(pengeluaranId)});
+            // Check if the update is successful
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+
+    public boolean deletePengeluaran(int pengeluaranId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            int rowsAffected = db.delete(TABLE_PENGELUARAN, KEY_PENGELUARAN_ID + "=?", new String[]{String.valueOf(pengeluaranId)});
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.close();
+        }
+    }
     // Example method to insert a budget for a specific user
     public Boolean insertBudget(int userId, double amount) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -230,7 +280,4 @@ public class DataHelper extends SQLiteOpenHelper {
         db.update(TABLE_LOGIN, values, KEY_IS_SIGNED_IN + " = 1", null);
         db.close();
     }
-
 }
-
-

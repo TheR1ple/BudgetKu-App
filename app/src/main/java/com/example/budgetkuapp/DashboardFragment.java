@@ -55,7 +55,7 @@ public class DashboardFragment extends Fragment {
         return view;
     }
 
-    private void RefreshList() {
+    public void RefreshList() {
         // Get the pengeluaran data for the current user
         DataHelper dataHelper = new DataHelper(getActivity());
         // Assuming you have a method to get the current user ID
@@ -84,6 +84,7 @@ public class DashboardFragment extends Fragment {
                         cursor.getString(kategoriIndex)
                 );
                 pengeluaranList.add(pengeluaran);
+                cursor.moveToNext();
 
                 Log.d("RefreshList", "Item " + cc + ": " + pengeluaran.toString());
             } else {
