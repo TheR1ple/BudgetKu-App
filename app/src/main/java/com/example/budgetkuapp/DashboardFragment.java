@@ -51,9 +51,9 @@ public class DashboardFragment extends Fragment {
 
         // Call the RefreshList method to populate the RecyclerView
         RefreshList();
-
         return view;
     }
+
 
     public void RefreshList() {
         // Get the pengeluaran data for the current user
@@ -72,6 +72,7 @@ public class DashboardFragment extends Fragment {
             // Check if the column index is valid
             int pengeluaranIdIndex = cursor.getColumnIndex("pengeluaran_id");
             int userIdIndex = cursor.getColumnIndex("user_id");
+            int imagePathIndex = cursor.getColumnIndex("image_path");
             int jumlahIndex = cursor.getColumnIndex("jumlah");
             int kategoriIndex = cursor.getColumnIndex("kategori");
 
@@ -81,8 +82,10 @@ public class DashboardFragment extends Fragment {
                         cursor.getInt(pengeluaranIdIndex),
                         cursor.getInt(userIdIndex),
                         cursor.getDouble(jumlahIndex),
-                        cursor.getString(kategoriIndex)
+                        cursor.getString(kategoriIndex),
+                        cursor.getString(imagePathIndex)
                 );
+
                 pengeluaranList.add(pengeluaran);
                 cursor.moveToNext();
 

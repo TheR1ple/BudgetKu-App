@@ -3,6 +3,8 @@ package com.example.budgetkuapp;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView textViewJumlah = findViewById(R.id.textDetailJumlah);
         TextView textViewTanggal = findViewById(R.id.textDetailTanggal);
         TextView textViewKategori = findViewById(R.id.textDetailKategori);
+        Button buttonDetailBack = findViewById(R.id.buttonDetailBack);
 
         // Mendapatkan data dari Intent
         Bundle extras = getIntent().getExtras();
@@ -38,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
                 int tanggalIndex = cursor.getColumnIndex("tanggal");
                 int kategoriIndex = cursor.getColumnIndex("kategori");
                 int imagePathIndex = cursor.getColumnIndex("image_path"); // Indeks path gambar
+                Log.d("DetailActivity", "imagePathIndex: " + imagePathIndex);
 
                 // Check if the column indexes are valid
                 if (deskripsiIndex >= 0 && jumlahIndex >= 0 && tanggalIndex >= 0 && kategoriIndex >= 0) {
@@ -46,9 +50,9 @@ public class DetailActivity extends AppCompatActivity {
                     String tanggal = cursor.getString(tanggalIndex);
                     String kategori = cursor.getString(kategoriIndex);
                     String imagePath = imagePathIndex >= 0 ? cursor.getString(imagePathIndex) : null;
+                    Log.d("DetailActivity", "imagePath: " + imagePath);
 
                     cursor.close();
-
                     // Mengisi data ke dalam tampilan
                     if (imagePath != null) {
                         Glide.with(this).load(imagePath).into(imageViewBukti);
@@ -60,6 +64,14 @@ public class DetailActivity extends AppCompatActivity {
                     textViewJumlah.setText("Rp. " + String.format("%,.2f", jumlah));
                     textViewTanggal.setText(tanggal);
                     textViewKategori.setText(kategori);
+
+                    buttonDetailBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onBackPressed();
+                        }
+                    });
+
                     Log.e("DetailActivity", "Brhasil Mnampilkan data");
                 } else {
                     // Handle the case where one or more column indexes are -1 (column not found)

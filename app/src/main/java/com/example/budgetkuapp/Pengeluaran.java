@@ -15,13 +15,14 @@ public class Pengeluaran {
         // Default constructor
     }
 
-    public Pengeluaran(int pengeluaranId, int userId, double jumlah, String kategori) {
+    public Pengeluaran(int pengeluaranId, int userId, double jumlah, String kategori, String imagePath) {
         this.pengeluaranId = pengeluaranId;
         this.userId = userId;
         this.jumlah = jumlah;
         this.kategori = kategori;
         this.imagePath = imagePath;
     }
+
 
     // Getters and Setters
 

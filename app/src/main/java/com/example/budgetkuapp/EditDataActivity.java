@@ -91,22 +91,11 @@ public class EditDataActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-                // Format tanggal sesuai kebutuhan Anda
                 String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-
-                // Set tanggal yang dipilih ke dalam EditText
                 editTanggal.setText(selectedDate);
             }
         }, year, month, day);
-
-        // Tampilkan dialog tanggal
         datePickerDialog.show();
-    }
-
-    private void launchImagePicker() {
-        // Implement logic to launch image picker here
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
     }
 
     // Handle the result when an image is selected
@@ -127,21 +116,18 @@ public class EditDataActivity extends AppCompatActivity {
 
     private String getPathFromUri(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
 
-        if (cursor != null) {
-            try {
+        try (Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
                 int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
                 return cursor.getString(columnIndex);
-            } finally {
-                cursor.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
     }
-
 
     private void loadDataFromDatabase(int pengeluaranId) {
         DataHelper dataHelper = new DataHelper(this);
