@@ -6,72 +6,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".BudgetFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:text="Set BudgetKu"
+        android:textAppearance="?android:textAppearanceLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.083" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+    <EditText
+        android:id="@+id/editJumlahBudget"
+        android:layout_width="346dp"
+        android:layout_height="43dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="56dp"
+        android:hint="Masukkan Budget"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set BudgetKu"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:paddingTop="50dp"
-                android:paddingBottom="50dp"/>
+    <Button
+        android:id="@+id/buttonSaveInput"
+        android:layout_width="351dp"
+        android:layout_height="54dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="88dp"
+        android:backgroundTint="#79AC78"
+        android:text="Simpan"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editJumlahBudget"
+        app:layout_constraintVertical_bias="0.072" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="16dp">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_margin="10dp">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editJumlahBudget"
-                        android:hint="Masukkan Budget"/>
-                </RelativeLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-                android:paddingTop="50dp">
-
-
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_margin="10dp">
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Simpan"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:backgroundTint="#79AC78"
-                        android:id="@+id/buttonSaveInput"/>
-
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="284dp"
+        android:layout_height="272dp"
+        android:layout_marginStart="136dp"
+        android:src="@drawable/money_bag"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
