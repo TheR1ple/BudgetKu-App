@@ -73,7 +73,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kategori Pengeluaran"/>
+                        android:text="Kategori Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -104,7 +105,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tanggal Pengeluaran"/>
+                        android:text="Tanggal Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -138,7 +140,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Deskripsi Pengeluaran"/>
+                        android:text="Deskripsi Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -170,10 +173,11 @@
                     <Button
                         android:id="@+id/buttonChooseImage"
                         android:layout_width="match_parent"
-                        android:textSize="12dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#79AC78"
                         android:text="Bukti Pengeluaran"
-                        android:layout_marginTop="8dp"/>
+                        android:textSize="12dp" />
 
                 </RelativeLayout>
 
@@ -187,7 +191,7 @@
                         android:id="@+id/imageEditPengeluaran"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jos_gandos"
+                        android:src="@drawable/image_gallery"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:adjustViewBounds="true"
@@ -213,8 +217,9 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Back"
+                        android:text="Kembali"
                         android:textAppearance="?android:textAppearanceMedium"
+                        android:backgroundTint="#79AC78"
                         android:id="@+id/buttonBackEditData"/>
                 </RelativeLayout>
 
@@ -227,7 +232,8 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Save"
+                        android:text="Simpan"
+                        android:backgroundTint="#79AC78"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:id="@+id/buttonSaveEditData"/>
                 </RelativeLayout>

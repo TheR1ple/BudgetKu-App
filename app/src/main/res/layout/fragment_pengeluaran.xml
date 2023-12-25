@@ -41,7 +41,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jumlah Pengeluaran"/>
+                        android:text="Jumlah Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -73,7 +74,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kategori Pengeluaran"/>
+                        android:text="Kategori Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -104,7 +106,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tanggal Pengeluaran"/>
+                        android:text="Tanggal Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -138,7 +141,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Deskripsi Pengeluaran"/>
+                        android:text="Deskripsi Pengeluaran"
+                        android:paddingLeft="25dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -173,26 +177,33 @@
                         android:textSize="12dp"
                         android:layout_height="wrap_content"
                         android:text="Bukti Pengeluaran"
+                        android:backgroundTint="#79AC78"
                         android:layout_marginTop="8dp"/>
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_margin="10dp">
+                    android:layout_height="181dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2">
 
                     <ImageView
                         android:id="@+id/imagePengeluaran"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/jos_gandos"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_width="221dp"
+                        android:layout_height="177dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="2dp"
                         android:adjustViewBounds="true"
+                        android:contentDescription="Bukti Pengeluaran"
                         android:scaleType="fitCenter"
-                        android:contentDescription="Bukti Pengeluaran"/>
+                        android:src="@drawable/image_gallery" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -214,7 +225,8 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Save"
+                        android:text="Simpan"
+                        android:backgroundTint="#79AC78"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:id="@+id/buttonSaveInput"/>
                 </RelativeLayout>
